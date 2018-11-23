@@ -1,0 +1,100 @@
+@startuml
+digraph foo {
+  vehicle [shape=box]
+  vid [label=<<u>vehicle-id</u>>]
+
+  vehicle -> vid [dir=none]
+  vehicle -> type [dir=none]
+  vehicle -> passenger_count [dir=none]
+  vehicle -> luggage_count [dir=none]
+
+  driver [shape=box]
+  SSN [label=<<u>SSN</u>>]
+  dname [label=Name]
+  dfname [label=FName]
+  dlname [label=LName]
+  dgender [label=gender]
+  dDOB [label=DOB]
+
+  driver -> SSN [dir=none]
+  driver -> dname [dir=none]
+  dname -> dfname [dir=none]
+  dname -> dlname [dir=none]
+  driver -> dgender [dir=none]
+  driver -> dDOB [dir=none]
+
+  owned_by [shape=diamond]
+
+  // Each vehicle must be owned by exactly 1 driver
+  // Vehicle should not exist without a driver - hence total participation of Vehicle
+  driver -> owned_by [dir=none, label=1]
+  vehicle -> owned_by [dir=none]
+  // xlabel places the label after drawing the edges
+  owned_by -> vehicle[dir=none, xlabel=1]
+
+  // rankdir = LR;
+
+  customer [shape=box]
+  email [label=<<u>email</u>>]
+  cname [label=Name]
+  cfname [label=FName]
+  clname [label=LName]
+  cgender [label=gender]
+  cDOB [label=DOB]
+
+  customer -> email [dir=none]
+  customer -> cname [dir=none]
+  cname -> cfname [dir=none]
+  cname -> clname [dir=none]
+  customer -> cgender [dir=none]
+  customer -> cDOB [dir=none]
+
+  ride [shape=box]
+  rid [label=<<u>rid</u>>]
+
+  ride -> rid [dir=none]
+  ride -> src_location [dir=none]
+  ride -> dst_location [dir=none]
+  ride -> cost [dir=none]
+  ride -> start_time [dir=none]
+  ride -> end_time [dir=none]
+  ride -> feedback [dir=none]
+
+  taking_ride [shape=diamond]
+
+  customer -> taking_ride [dir=none, label=1]
+  taking_ride -> ride [dir=none]
+  ride -> taking_ride [dir=none, xlabel=1]
+
+  taking_ride -> vehicle [dir=none, label=1]
+
+  coupon [shape=box]
+  has [label=has_many, shape=diamond]
+  applies [shape=diamond]
+  coupon_id [label=<<u>cid</u>>]
+
+  coupon -> coupon_id [dir=none]
+  coupon -> value [dir=none]
+  customer -> has [dir=none, label=1]
+  has -> coupon [dir=none]
+  coupon -> has [dir=none, label="*", fontsize=20]
+  coupon -> applies [dir=none, xlabel=1]
+  applies -> ride [dir=none, label=1]
+
+  vehicle_tracker [shape=box]
+  t1 [label=tracks, shape=diamond]
+  loc1 [label=location, border=dotted, style="dashed"]
+
+  vehicle_tracker -> t1 [dir=none, label=1]
+  vehicle_tracker -> loc1 [dir=none]
+  t1 -> vehicle [dir=none, label="*", fontsize=20]
+
+  customer_tracker [shape=box]
+  t2 [label=tracks, shape=diamond]
+  loc2 [label=location, border=dotted, style="dashed"]
+
+  customer_tracker -> t2 [dir=none, label=1]
+  customer_tracker -> loc2 [dir=none]
+  t2 -> customer [dir=none, label="*", fontsize=20]
+}
+@enduml
