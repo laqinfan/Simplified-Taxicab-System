@@ -58,7 +58,6 @@ digraph foo {
   ride -> cost [dir=none]
   ride -> start_time [dir=none]
   ride -> end_time [dir=none]
-  ride -> feedback [dir=none]
 
   taking_ride [shape=diamond]
 
@@ -67,6 +66,17 @@ digraph foo {
   ride -> taking_ride [dir=none, xlabel=1]
 
   taking_ride -> vehicle [dir=none, label=1]
+
+  providing_feedback [shape=diamond]
+  customer -> providing_feedback [dir=none, label=1]
+  providing_feedback -> ride [dir=none, label=1]
+
+  providing_feedback -> score [dir=none]
+  providing_feedback -> customer_service [dir=none]
+  providing_feedback -> cleanliness [dir=none]
+  providing_feedback -> vehicle_condition [dir=none]
+  providing_feedback -> overal_condition [dir=none]
+
 
   coupon [shape=box]
   has [label=has_many, shape=diamond]
@@ -86,6 +96,7 @@ digraph foo {
   loc1 [label=location, border=dotted, style="dashed"]
 
   vehicle_tracker -> t1 [dir=none, label=1]
+  vehicle_tracker -> vtracker_id [dir=none]
   vehicle_tracker -> loc1 [dir=none]
   t1 -> vehicle [dir=none, label="*", fontsize=20]
 
@@ -94,6 +105,7 @@ digraph foo {
   loc2 [label=location, border=dotted, style="dashed"]
 
   customer_tracker -> t2 [dir=none, label=1]
+  customer_tracker -> ctracker_id [dir=none]
   customer_tracker -> loc2 [dir=none]
   t2 -> customer [dir=none, label="*", fontsize=20]
 }
