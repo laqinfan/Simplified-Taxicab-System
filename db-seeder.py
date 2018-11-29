@@ -70,6 +70,16 @@ print("create table ride (\n" \
       "  foreign key (v_id) references vehicle(vid)\n"
       ");\n")
 
+print("create table feedback (\n" \
+      "  ride_id numeric(9) not null, \n"
+      "  overall numeric(1) not null,\n"
+      "  customer_service numeric(1) not null,\n"
+      "  safety numeric(1) not null,\n"
+      "  cleanliness numeric(1) not null,\n"
+      "  vehicle_condition numeric(1) not null,\n"
+      "  foreign key (ride_id) references ride(rid) \n"
+      ");\n")
+
 fake = Faker()
 
 driverSSN = {}
@@ -179,5 +189,14 @@ for i in range(numRides):
     record = frmtStr.format(i, start_time, end_time,
                             src_lat, src_long,
                             dst_lat, dst_long, cost,
-                            random.choice(customerEmail), random.randint(0, numVehicles))
+                            random.choice(customerEmail), random.randint(0, numVehicles-1))
+    print(record)
+
+print("\ninsert into feedback values")
+for i in range(numRides):
+    frmtStr = "({},{},{},{},{},{}),"
+    if i == numRides - 1:
+        frmtStr = "({},{},{},{},{},{});"
+    record = frmtStr.format(i, random.randint(0,5), random.randint(0,5),
+                            random.randint(0,5), random.randint(0,5), random.randint(0,5))
     print(record)
