@@ -7,12 +7,12 @@ In this project, we designed and implemented a simplified taxicab system. In thi
 
 1. ER diagram
  
-![alt text](https://bitbucket.org/agawande1/databaseprojectf18/src/master/docs/images/ER.png)
+![alt text](images/ER.png)
 
 
 2. Mapping ER to relational model
 
-![alt text](https://bitbucket.org/agawande1/databaseprojectf18/src/master/docs/images/mapping.jpg)
+![alt text](images/mapping.jpg)
 
 
 
