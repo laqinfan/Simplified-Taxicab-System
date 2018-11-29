@@ -1,4 +1,4 @@
-# Generate database file similar to employeedb.txt
+# Generate database
 
 import sys, random
 from datetime import timedelta
@@ -7,10 +7,16 @@ from faker import Faker
 import geopy
 from geopy.distance import VincentyDistance
 
-numDrivers = 10
+numDrivers = 100
 numVehicles = numDrivers
-numCustomers = 10
-numRides = 20
+numCustomers = 500
+numRides = 2000
+numCoupons = 50
+appliedCoupons = 20
+
+print("drop database pdb1;")
+print("create database pdb1;")
+print("use pdb1;\n")
 
 print("create table driver (\n" \
       "  ssn numeric(9) not null,\n" \
@@ -78,6 +84,21 @@ print("create table feedback (\n" \
       "  cleanliness numeric(1) not null,\n"
       "  vehicle_condition numeric(1) not null,\n"
       "  foreign key (ride_id) references ride(rid) \n"
+      ");\n")
+
+print("create table coupon (\n" \
+      "  cid numeric(9) not null, \n"
+      "  value numeric(2) not null,\n"
+      "  customer_email char(200) not null,\n"
+      "  primary key (cid), \n"
+      "  foreign key (customer_email) references customer(email_id) \n"
+      ");\n")
+
+print("create table applies_on (\n" \
+      "  coupon_id numeric(9) not null, \n"
+      "  ride_id numeric(9) not null,\n"
+      "  foreign key (coupon_id) references coupon(cid),\n"
+      "  foreign key (ride_id) references ride(rid)\n"
       ");\n")
 
 fake = Faker()
@@ -199,4 +220,36 @@ for i in range(numRides):
         frmtStr = "({},{},{},{},{},{});"
     record = frmtStr.format(i, random.randint(0,5), random.randint(0,5),
                             random.randint(0,5), random.randint(0,5), random.randint(0,5))
+    print(record)
+
+print("\ninsert into coupon values")
+for i in range(numCoupons):
+    frmtStr = "({},{},'{}'),"
+    if i == numCoupons - 1:
+        frmtStr = "({},{},'{}');"
+    # 5-30%
+    record = frmtStr.format(i, random.randint(5,30), random.choice(customerEmail))
+    print(record)
+
+print("\ninsert into applies_on values")
+rideList = []
+couponList = []
+for i in range(appliedCoupons):
+    frmtStr = "({},{}),"
+    if i == appliedCoupons - 1:
+        frmtStr = "({},{});"
+
+    # One coupon can only apply to one ride
+
+    rideid = random.randint(0, numRides-1)
+    coupondid = random.randint(0, numCoupons-1)
+
+    while (coupondid in couponList or rideid in rideList):
+        rideid = random.randint(0, numRides-1)
+        coupondid = random.randint(0, numCoupons-1)
+
+    record = frmtStr.format(coupondid, rideid)
+    couponList.append(coupondid)
+    rideList.append(rideid)
+
     print(record)

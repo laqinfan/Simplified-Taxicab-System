@@ -1,11 +1,59 @@
-CREATE USER 'dbproject'@'localhost' IDENTIFIED BY 'password';
+# Database Systems : Simplified Taxicab System
 
-create database pdb1;
+## Requirements
 
-GRANT ALL ON pdb1.* TO 'dbproject'@'localhost';
+### Seeding the database
 
-pip install json2table
+- pip install Faker
 
-python3 -m pip install PyMySQL
+- pip install geopy
 
-pip install geopy
+### Frontend
+
+- Pandas
+
+- pip install flask
+
+- python3 -m pip install PyMySQL
+
+## Setup
+
+- Creating user:
+
+```
+    create user 'dbproject'@'localhost' IDENTIFIED BY 'password';
+```
+
+- Grant priviliges:
+
+```
+    GRANT ALL ON pdb1.* TO 'dbproject'@'localhost';
+```
+
+May need to repeat these two step twice if there is a duplicate email (chance are low):
+
+- Create seed file:
+
+```
+    python db-seeder.py > test-db.sql
+```
+
+- Seed the database:
+
+```
+    mysql -u dbproject -p < test-db.sql
+```
+
+## Demo
+
+- Start the flask frontend:
+
+```
+    python frontend.py
+```
+
+- Direct browser to:
+
+```
+	http://127.0.0.1:5000
+```
