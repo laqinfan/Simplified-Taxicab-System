@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, request, render_template, jsonify
 import pymysql.cursors
 #from json2table import convert
 import json
@@ -14,9 +14,13 @@ class Database:
                                           cursorclass=pymysql.cursors.DictCursor)
         self.cur = self.connection.cursor()
 
-    def list_employees(self):
-        self.cur.execute("SELECT fname, lname FROM employee")
-        result = self.cur.fetchall()
+    def execute_query(self, query):
+        try:
+            self.cur.execute(query)
+            result = self.cur.fetchall()
+        except Exception as e:
+            result = e
+            print(e)
 
         return result
 
@@ -24,17 +28,19 @@ app = Flask(__name__)
 db = Database()
 
 @app.route("/")
-def hello():
-     emps = db.list_employees()
-     print(emps)
+def query_form():
+    return render_template('form.html')
 
-     #build_direction = "LEFT_TO_RIGHT"
-     #table_attributes = {"style" : "width:100%"}
-     #html = convert(jsonify(json.dumps(emps)), build_direction=build_direction, table_attributes=table_attributes)
+@app.route("/", methods=['POST'])
+def form_post():
+    emps = db.execute_query(request.form['text'])
+    print(emps)
 
-     df = pandas.DataFrame(emps)
-
-     return df.to_html()
+    try:
+      df = pandas.DataFrame(emps)
+      return df.to_html()
+    except:
+      return str(emps)
 
 if __name__ == "__main__":
     app.run()
