@@ -143,3 +143,4 @@ for i in range(numCustomers):
         frmtStr = "('{}',{},{});"
     record = frmtStr.format(customerEmail[i], lat, long)
     print(record)
+
