@@ -1,11 +1,16 @@
 # Generate database file similar to employeedb.txt
 
 import sys, random
+from datetime import timedelta
+
 from faker import Faker
+import geopy
+from geopy.distance import VincentyDistance
 
 numDrivers = 10
 numVehicles = numDrivers
 numCustomers = 10
+numRides = 20
 
 print("create table driver (\n" \
       "  ssn numeric(9) not null,\n" \
@@ -123,12 +128,12 @@ for i in range(numVehicles):
     profile = fake.profile(sex=None)
     location = profile['current_location']
     lat = location[0]
-    long = location[1]
+    longitude = location[1]
 
     frmtStr = "({},{},{}),"
     if i == numVehicles - 1:
         frmtStr = "({},{},{});"
-    record = frmtStr.format(i, lat, long)
+    record = frmtStr.format(i, lat, longitude)
     print(record)
 
 print("\ninsert into customer_tracker values")
@@ -136,11 +141,43 @@ for i in range(numCustomers):
     profile = fake.profile(sex=None)
     location = profile['current_location']
     lat = location[0]
-    long = location[1]
+    longitude = location[1]
 
     frmtStr = "('{}',{},{}),"
     if i == numCustomers - 1:
         frmtStr = "('{}',{},{});"
-    record = frmtStr.format(customerEmail[i], lat, long)
+    record = frmtStr.format(customerEmail[i], lat, longitude)
     print(record)
 
+print("\ninsert into ride values")
+for i in range(numRides):
+    start_time = fake.past_datetime(start_date="-180d")
+    # Ride at least took 10 min to 3 hours
+    end_time = start_time + timedelta(seconds=random.randint(600, 10800))
+
+    # km/hour
+    avgSpeedOfVechile = random.randint(30, 70)
+    distanceTravelled = ((end_time - start_time).seconds * avgSpeedOfVechile) / 3600
+
+    profile  = fake.profile(sex=None)
+    location = profile['current_location']
+    src_lat  = location[0]
+    src_long = location[1]
+
+    origin = geopy.Point(src_lat, src_long)
+    destination = VincentyDistance(kilometers=distanceTravelled).destination(origin, random.randint(0, 180))
+
+    dst_lat  = round(destination.latitude, 9)
+    dst_long = round(destination.longitude, 9)
+
+    # Initial cost + distanceTravveled * rate
+    cost = int(distanceTravelled * 0.67 + random.randint(5, 20))
+
+    frmtStr = "({},'{}','{}','{}','{}','{}','{}',{},'{}',{}),"
+    if i == numRides - 1:
+        frmtStr = "({},'{}','{}','{}','{}','{}','{}',{},'{}',{});"
+    record = frmtStr.format(i, start_time, end_time,
+                            src_lat, src_long,
+                            dst_lat, dst_long, cost,
+                            random.choice(customerEmail), random.randint(0, numVehicles))
+    print(record)

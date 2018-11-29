@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, jsonify
 import pymysql.cursors
-#from json2table import convert
 import json
 import pandas
 
@@ -20,7 +19,6 @@ class Database:
             result = self.cur.fetchall()
         except Exception as e:
             result = e
-            #print(e)
 
         return result
 
@@ -34,7 +32,6 @@ def query_form():
 @app.route("/", methods=['POST'])
 def form_post():
     emps = db.execute_query(request.form['text'])
-    #print(emps)
 
     try:
       df = pandas.DataFrame(emps)
