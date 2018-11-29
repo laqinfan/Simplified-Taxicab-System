@@ -20,7 +20,7 @@ class Database:
             result = self.cur.fetchall()
         except Exception as e:
             result = e
-            print(e)
+            #print(e)
 
         return result
 
@@ -34,11 +34,12 @@ def query_form():
 @app.route("/", methods=['POST'])
 def form_post():
     emps = db.execute_query(request.form['text'])
-    print(emps)
+    #print(emps)
 
     try:
       df = pandas.DataFrame(emps)
-      return df.to_html()
+      r = df.to_html(classes=["table"])
+      return render_template('results.html', results=r)
     except:
       return str(emps)
 
