@@ -11,8 +11,8 @@ numDrivers = 100
 numVehicles = numDrivers
 numCustomers = 500
 numRides = 2000
-numCoupons = 50
-appliedCoupons = 20
+numCoupons = 200
+appliedCoupons = 100
 
 print("drop database if exists pdb1;")
 print("create database pdb1;")
