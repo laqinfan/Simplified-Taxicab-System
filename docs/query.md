@@ -1,18 +1,18 @@
 ## Queries
 
-1. Select all the male drivers fname and lname whose vehicle type is SUV.
+- Select all the male drivers fname and lname whose vehicle type is SUV.
 
 ```sql
-    select driver.fname from driver, vehicle where vehicle.dssn = driver.ssn and vehicle.type = ‘SUV’
+    select driver.fname from driver, vehicle where vehicle.dssn = driver.ssn and vehicle.type = 'SUV'
 ```
 
-2. Find the number of drivers who were born after “12-01-2000”.
+- Find the number of drivers who were born after “12-01-2000”.
 
 ```sql
     select fname, count(*) from driver where driver.bdate > '12-01-2000' group by fname
 ```
 
-3. Find the average overall scores of the rides for customers were born after “12-01-2010”
+- Find the average overall scores of the rides for customers were born after “12-01-2010”
 
 ```sql
     select cost, avg(feedback.overall)
@@ -23,7 +23,7 @@
       group by cost
 ```
 
-4. Retrieve the customers who apply more than 10 coupons to rides  
+- Retrieve the customers who apply more than 10 coupons to rides  
 
 ```sql
     select fname, count(*)
@@ -36,7 +36,7 @@
       group by fname
 ```
 
-5. Retrieve locations of vehicles, whose luggage_count > 4
+- Retrieve locations of vehicles, whose luggage_count > 4
 
 ```sql
     select lat, longitude
