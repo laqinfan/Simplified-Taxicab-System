@@ -30,7 +30,7 @@
     GRANT ALL ON pdb1.* TO 'dbproject'@'localhost';
 ```
 
-May need to repeat these two step twice if there is a duplicate email (chance are low):
+May need to repeat these two step twice if there is a duplicate email (chances are low):
 
 - Create seed file:
 

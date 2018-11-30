@@ -14,7 +14,7 @@ numRides = 2000
 numCoupons = 50
 appliedCoupons = 20
 
-print("drop database pdb1;")
+print("drop database if exists pdb1;")
 print("create database pdb1;")
 print("use pdb1;\n")
 
