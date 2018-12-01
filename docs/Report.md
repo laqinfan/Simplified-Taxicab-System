@@ -7,12 +7,12 @@ In this project, we designed and implemented a simplified taxicab system. In thi
 
 1. ER diagram
  
-![alt text](images/ER.png =250x)
+![alt text](images/ER.png)
 
 
 2. Mapping ER to relational model
 
-![alt text](images/mapping.jpg =250x)
+![alt text](images/mapping.jpg)
 
 3. Our relational model satisfies 3NF
 
@@ -33,13 +33,13 @@ We designed 5 SQL queries which can be run on our front-end and list the dataset
     select driver.fname from driver, vehicle where vehicle.dssn = driver.ssn and vehicle.type = 'SUV'
 ```
 
-- Find the number of drivers who were born after â€œ12-01-2000â€.
+- Find the number of drivers who were born after “12-01-2000”.
 
 ```sql
     select fname, count(*) from driver where driver.bdate > '12-01-2000' group by fname
 ```
 
-- Find the average overall scores of the rides for customers were born after â€œ12-01-2010â€
+- Find the average overall scores of the rides for customers were born after “12-01-2010”
 
 ```sql
     select cost, avg(feedback.overall)
